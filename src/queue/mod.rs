@@ -6,17 +6,16 @@ const RESULT_QUEUE: &str = "tranco:results";
 const REDIS_BLOCK_TIMEOUT: usize = 1;
 
 pub(crate) struct Task {
-    // TODO use for input
     pub rank: String,
     pub domain: String,
 }
 
-pub(crate) fn push_task(mut con: Connection, task: Task) -> RedisResult<()> {
+pub(crate) fn push_task(con: &mut Connection, task: Task) -> RedisResult<()> {
     let task_value = format!("{};{}", task.rank, task.domain);
     con.lpush(TASK_QUEUE, task_value)
 }
 
-pub(crate) fn get_task(mut con: Connection) -> Option<Task> {
+pub(crate) fn get_task(con: &mut Connection) -> Option<Task> {
     let message: RedisResult<Vec<String>> = con.brpop(TASK_QUEUE, REDIS_BLOCK_TIMEOUT);
     let vec_values = message.unwrap_or_default();  // TODO do not unwrap ?
     if vec_values.is_empty() {
@@ -36,12 +35,12 @@ pub(crate) struct JarmResult {
     pub jarm_hash: String,
 }
 
-pub(crate) fn push_jarm_result(mut con: Connection, jarm_result: JarmResult) -> RedisResult<()> {
+pub(crate) fn push_jarm_result(con: &mut Connection, jarm_result: JarmResult) -> RedisResult<()> {
     let jarm_result_value = format!("{};{};{}", jarm_result.rank, jarm_result.domain, jarm_result.jarm_hash);
     con.lpush(RESULT_QUEUE, jarm_result_value)
 }
 
-pub(crate) fn get_jarm_result(mut con: Connection) -> Option<JarmResult> {
+pub(crate) fn get_jarm_result(con: &mut Connection) -> Option<JarmResult> {
     let message: RedisResult<Vec<String>> = con.brpop(RESULT_QUEUE, REDIS_BLOCK_TIMEOUT);
     let vec_values = message.unwrap_or_default();  // TODO do not unwrap ?
     if vec_values.is_empty() {
