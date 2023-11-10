@@ -1,15 +1,14 @@
 mod queue;
 
-use std::{
-    error::Error,
-    fs::File,
-};
+use std::{error::Error, fs::File, thread};
+use std::time::Duration;
 use log::{info, trace};
 use redis::{Connection, RedisResult};
 use rust_jarm::Jarm;
 use crate::queue::{JarmResult, Task};
 
 const JARM_HASH_FOR_DRY_RUN: &str = "27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5";
+const UPLOADER_POLL_INTERVAL: Duration = Duration::from_millis(100);
 
 
 pub fn run_scheduler() {
@@ -66,7 +65,7 @@ fn process_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Erro
                     let jarm_result = JarmResult {
                         rank: task.rank,
                         domain: task.domain,
-                        jarm_hash: hash
+                        jarm_hash: hash,
                     };
                     queue::push_jarm_result(con, jarm_result)?;
                 }
@@ -78,9 +77,22 @@ fn process_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Erro
 }
 
 fn process_results(con: &mut Connection) -> Result<(), Box<dyn Error>> {
-    let mut optionnal_jarm_result = queue::get_jarm_result(con);
+    info!("Monitoring domains left to scan");
+    let mut nb_tasks = queue::nb_tasks(con);
+    let mut old_nb_task = 0;
+    while nb_tasks > 0 {
+        if nb_tasks != old_nb_task {
+            trace!("{nb_tasks} domains left");
+            old_nb_task = nb_tasks;
+        }
+        thread::sleep(UPLOADER_POLL_INTERVAL);
+        nb_tasks = queue::nb_tasks(con);
+    }
+    info!("No more tasks left, all domains are scanned!");
+
+    let mut optional_jarm_result = queue::get_jarm_result(con);
     loop {
-        match optionnal_jarm_result {
+        match optional_jarm_result {
             None => break,
             Some(jarm_result) => {
                 let rank = jarm_result.rank;
@@ -89,7 +101,7 @@ fn process_results(con: &mut Connection) -> Result<(), Box<dyn Error>> {
                 info!("Received: {rank} - {domain} - {jarm_hash}");
             }
         }
-        optionnal_jarm_result = queue::get_jarm_result(con);
+        optional_jarm_result = queue::get_jarm_result(con);
     }
     Ok(())
 }

@@ -29,6 +29,10 @@ pub(crate) fn get_task(con: &mut Connection) -> Option<Task> {
     })
 }
 
+pub(crate) fn nb_tasks(con: &mut Connection) -> u64 {
+    con.llen(TASK_QUEUE).unwrap()  // TODO handle unwrap
+}
+
 pub(crate) struct JarmResult {
     pub rank: String,
     pub domain: String,
