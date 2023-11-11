@@ -12,3 +12,5 @@ rust_jarm = "0.3.3"
 clap = { version = "4.4.7", features = ["derive"] }
 env_logger = { version = "0.10.0", features = [] }
 log = "0.4.20"
+rust-s3 = { version = "0.33.0", features = ["blocking"] }
+tempfile = { version = "3.8.1", features = [] }

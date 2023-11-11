@@ -52,7 +52,10 @@ fn main() {
         }
         Commands::Uploader => {
             info!("Starting uploader");
-            run_uploader();
+            if cli.dry_run {
+                warn!("Dry run, nothing will be uploaded to S3");
+            }
+            run_uploader(cli.dry_run);
             info!("uploader done!");
         }
     }
