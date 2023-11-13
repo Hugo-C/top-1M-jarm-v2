@@ -14,15 +14,15 @@ This is another iteration on https://github.com/Hugo-C/top-1M-jarm, with a switc
 ## Architecture
 ```mermaid
 flowchart LR
-   Scheduler[Scheduler 🦀] -- fetch csv --> Tranco[Tranco Website] 
-   Scheduler[Scheduler 🦀] -- fill the _queue with domains to process --> tasks[/jarm tasks | Redis List/]
-   tasks --> Worker1[Worker performing the JARM scan 🦀] 
-   tasks --> Worker2[Worker performing the JARM scan 🦀] 
-   tasks --> Worker3[Worker performing the JARM scan 🦀] 
-   Worker1 --> scanResultQueue[/_queue of JARM result/]
+   Scheduler["Scheduler 🦀"] -- fetch csv --> Tranco["Tranco Website"] 
+   Scheduler["Scheduler 🦀"] -- fill the _queue with domains to process --> tasks["/jarm tasks | Redis List/"]
+   tasks --> Worker1["Worker performing the JARM scan 🦀"] 
+   tasks --> Worker2["Worker performing the JARM scan 🦀"] 
+   tasks --> Worker3["Worker performing the JARM scan 🦀"] 
+   Worker1 --> scanResultQueue["/_queue of JARM result/"]
    Worker2 --> scanResultQueue
    Worker3 --> scanResultQueue
-   scanResultQueue--> Uploader[Uploader aggregates the result in a single CSV and upload it to S3 🦀]
+   scanResultQueue--> Uploader["Uploader aggregates the result in a single CSV and upload it to S3 🦀"]
    Uploader -- Monitor to know when all tasks are acknowledged --> tasks
 ```
 All 🦀 are rust process that are separated from one another and simply launched with the following orders:
