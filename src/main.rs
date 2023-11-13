@@ -38,13 +38,15 @@ fn main() {
     match &cli.command {
         Commands::Scheduler => {
             info!("Starting scheduler");
-            run_scheduler();
+            if cli.dry_run {
+                warn!("Dry run, local tranco list sample used");
+            }
+            run_scheduler(cli.dry_run);
             info!("Scheduler done!");
         }
         Commands::Worker => {
             info!("Starting worker");
             if cli.dry_run {
-                // TODO add end to end test with dry_run ON
                 warn!("Dry run, no real jarm hash will be returned");
             }
             run_worker(cli.dry_run);

@@ -1,0 +1,8 @@
+.github/
+run_configurations/
+target/
+test/
+
+docker-compose.yml
+Makefile
+README.md

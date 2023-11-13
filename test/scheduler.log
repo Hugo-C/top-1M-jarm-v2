@@ -1,0 +1,14 @@
+[TRACE] debug is on
+[INFO ] Starting scheduler
+[WARN ] Dry run, local tranco list sample used
+[DEBUG] StringRecord(["1", "google.com"]) pushed to task queue
+[DEBUG] StringRecord(["2", "facebook.com"]) pushed to task queue
+[DEBUG] StringRecord(["3", "amazonaws.com"]) pushed to task queue
+[DEBUG] StringRecord(["4", "microsoft.com"]) pushed to task queue
+[DEBUG] StringRecord(["5", "apple.com"]) pushed to task queue
+[DEBUG] StringRecord(["6", "googleapis.com"]) pushed to task queue
+[DEBUG] StringRecord(["7", "akamaiedge.net"]) pushed to task queue
+[DEBUG] StringRecord(["8", "a-msedge.net"]) pushed to task queue
+[DEBUG] StringRecord(["9", "youtube.com"]) pushed to task queue
+[DEBUG] StringRecord(["10", "twitter.com"]) pushed to task queue
+[INFO ] Scheduler done!

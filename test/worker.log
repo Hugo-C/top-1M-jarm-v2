@@ -1,0 +1,24 @@
+[TRACE] debug is on
+[INFO ] Starting worker
+[WARN ] Dry run, no real jarm hash will be returned
+[DEBUG] Processing: google.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for google.com
+[DEBUG] Processing: facebook.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for facebook.com
+[DEBUG] Processing: amazonaws.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for amazonaws.com
+[DEBUG] Processing: microsoft.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for microsoft.com
+[DEBUG] Processing: apple.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for apple.com
+[DEBUG] Processing: googleapis.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for googleapis.com
+[DEBUG] Processing: akamaiedge.net
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for akamaiedge.net
+[DEBUG] Processing: a-msedge.net
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for a-msedge.net
+[DEBUG] Processing: youtube.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for youtube.com
+[DEBUG] Processing: twitter.com
+[DEBUG] Jarm hash is Ok("27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5") for twitter.com
+[INFO ] Worker done!

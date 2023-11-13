@@ -22,6 +22,8 @@ jobs:
       run: cargo check --verbose
     - name: Test
       run: cargo test
+    - name: Test E2E
+      run: make docker-test-e2e
     - name: Run Clippy
       uses: actions-rs/clippy-check@v1
       with:

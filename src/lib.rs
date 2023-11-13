@@ -1,7 +1,7 @@
 mod queue;
 mod storage;
 
-use std::{error::Error, fs::File, thread};
+use std::{env, error::Error, fs::File, thread};
 use std::time::Duration;
 use log::{debug, info};
 use redis::{Connection, RedisResult};
@@ -13,9 +13,9 @@ const JARM_HASH_FOR_DRY_RUN: &str = "27d27d27d0000001dc41d43d00041d1c5ac8aa55226
 const UPLOADER_POLL_INTERVAL: Duration = Duration::from_millis(100);
 
 
-pub fn run_scheduler() {
+pub fn run_scheduler(dry_run: bool) {
     let mut redis_connection = redis_connection().unwrap();
-    schedule_tasks(&mut redis_connection).expect("Failed to schedule all tasks");
+    schedule_tasks(&mut redis_connection, dry_run).expect("Failed to schedule all tasks");
 }
 
 pub fn run_worker(dry_run: bool) {
@@ -29,12 +29,15 @@ pub fn run_uploader(dry_run: bool) {
 }
 
 fn redis_connection() -> RedisResult<Connection> {
-    let client = redis::Client::open("redis://127.0.0.1/")?;
+    let redis_host = env::var("REDIS_HOST").unwrap_or("localhost".to_string());
+    let redis_url = format!("redis://{redis_host}/");
+    let client = redis::Client::open(redis_url)?;
     client.get_connection()
 }
 
-fn schedule_tasks(con: &mut Connection) -> Result<(), Box<dyn Error>> {
+fn schedule_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Error>> {
     let file = File::open("top-1m.csv")?;  // TODO fetch from tranco if not in dry-run
+    // TODO Tranco permanent url: https://tranco-list.eu/top-1m.csv.zip
     let mut reader = csv::ReaderBuilder::new();
     reader.has_headers(false);
     let mut rdr = reader.from_reader(file);

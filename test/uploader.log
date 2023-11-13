@@ -1,0 +1,16 @@
+[TRACE] debug is on
+[INFO ] Starting uploader
+[WARN ] Dry run, nothing will be uploaded to S3
+[INFO ] Monitoring domains left to scan
+[INFO ] No more tasks left, all domains are scanned!
+[INFO ] Received: 1 - google.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 2 - facebook.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 3 - amazonaws.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 4 - microsoft.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 5 - apple.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 6 - googleapis.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 7 - akamaiedge.net - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 8 - a-msedge.net - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 9 - youtube.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] Received: 10 - twitter.com - 27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5
+[INFO ] uploader done!

@@ -1,8 +1,33 @@
 version: '3.8'
 services:
+
+  worker: &worker  # TODO move dry-run to override
+    build: .
+    image: top-1m-jarm-v2
+    container_name: top-1m-jarm-v2-worker
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - RUST_BACKTRACE=1
+    volumes:
+      - ./test/top-1m.csv:/app/top-1m.csv
+    command: ["-v", "--dry-run", "worker"]
+
+  scheduler:
+    <<: *worker
+    container_name: top-1m-jarm-v2-scheduler
+    command: ["-v", "--dry-run", "scheduler"]
+
+  uploader:
+    <<: *worker
+    container_name: top-1m-jarm-v2-uploader
+    command: ["-v", "--dry-run", "uploader"]
+
   redis:
     image: redis:7-alpine
     container_name: redis_container
     ports:
       - '6379:6379'
     command: redis-server --save 60 1 --loglevel warning
+
