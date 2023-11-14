@@ -10,6 +10,8 @@ use tempfile::NamedTempFile;
 
 const S3_ENDPOINT: &str = "https://storage.googleapis.com";
 
+// TODO add credential test
+
 pub(crate) fn push_result_to_s3(tmp_file: &NamedTempFile) -> Result<(), Box<dyn Error>> {
     let region_name = "us-central1".to_string();
     let region = Region::Custom { region: region_name, endpoint: S3_ENDPOINT.to_string() };

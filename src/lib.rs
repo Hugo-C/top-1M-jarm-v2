@@ -9,7 +9,13 @@ use rust_jarm::Jarm;
 use tempfile::NamedTempFile;
 use crate::queue::{JarmResult, Task};
 
+use std::io::Read;
+use zip::read::ZipFile;
+
+
 const JARM_HASH_FOR_DRY_RUN: &str = "27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5";
+const TRANCO_DOWNLOAD_ZIP_URL: &str = "https://tranco-list.eu/top-1m.csv.zip";
+const SAMPLE_TOP_1M_CSV_PATH: &str = "test/top-1m.csv";
 const UPLOADER_POLL_INTERVAL: Duration = Duration::from_millis(100);
 
 
@@ -36,11 +42,16 @@ fn redis_connection() -> RedisResult<Connection> {
 }
 
 fn schedule_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Error>> {
-    let file = File::open("top-1m.csv")?;  // TODO fetch from tranco if not in dry-run
-    // TODO Tranco permanent url: https://tranco-list.eu/top-1m.csv.zip
+    let content: String = if dry_run {
+        let mut file_buf: Vec<u8> = Vec::new();
+        let _ = File::open(SAMPLE_TOP_1M_CSV_PATH)?.read_to_end(&mut file_buf);
+        String::from_utf8(file_buf)?
+    } else {
+        fetch_tranco_list()?
+    };
     let mut reader = csv::ReaderBuilder::new();
     reader.has_headers(false);
-    let mut rdr = reader.from_reader(file);
+    let mut rdr = reader.from_reader(content.as_bytes());
     for result in rdr.records() {
         let record = result?;
         debug!("{record:?} pushed to task queue");
@@ -51,6 +62,21 @@ fn schedule_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Err
         queue::push_task(con, task)?;
     }
     Ok(())
+}
+
+fn fetch_tranco_list() -> Result<String, Box<dyn Error>> {
+    let mut res = reqwest::blocking::get(TRANCO_DOWNLOAD_ZIP_URL).unwrap();
+
+    let mut buf: Vec<u8> = Vec::new();
+    let _ = res.read_to_end(&mut buf);
+
+    let reader = std::io::Cursor::new(buf);
+    let mut zip = zip::ZipArchive::new(reader).unwrap();
+    let mut file_zip: ZipFile = zip.by_index(0)?;  // a single csv file is expected
+    let mut file_buf: Vec<u8> = Vec::new();
+    let _ = file_zip.read_to_end(&mut file_buf);
+    let content = String::from_utf8(file_buf).unwrap();
+    Ok(content)
 }
 
 fn process_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Error>> {
