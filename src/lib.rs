@@ -3,7 +3,7 @@ mod storage;
 
 use std::{env, error::Error, fs::File, thread};
 use std::time::Duration;
-use log::{debug, info};
+use log::{debug, error, info};
 use redis::{Connection, RedisResult};
 use rust_jarm::Jarm;
 use tempfile::NamedTempFile;
@@ -108,6 +108,20 @@ fn process_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Erro
 }
 
 fn process_results(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Error>> {
+    let bucket = if !dry_run {
+        match storage::fetch_s3_bucket() {
+            Ok(bucket) => {
+                debug!("S3 credentials are valid");
+                Some(bucket)
+            }
+            Err(e) => {
+                error!("Error fetching the bucket from S3! {e}");
+                error!("Invalid credentials ?");
+                return Err(Box::try_from(e)?);
+            }
+        }
+    } else { None };
+
     info!("Monitoring domains left to scan");
     let mut nb_tasks = queue::nb_tasks(con);
     let mut old_nb_task = 0;
@@ -139,7 +153,8 @@ fn process_results(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Er
     }
     writer.flush()?;
     if !dry_run {
-        storage::push_result_to_s3(&tmp_file).unwrap();
+        let fetch_bucket = bucket.expect("bucket is present if not in dry run");
+        storage::push_result_to_s3(fetch_bucket, &tmp_file).unwrap();
     }
     Ok(())
 }
