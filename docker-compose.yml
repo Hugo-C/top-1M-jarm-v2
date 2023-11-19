@@ -11,16 +11,29 @@ services:
       - RUST_BACKTRACE=1
       # - SENTRY_DSN=XXX
     command: ["-v", "worker"]
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 100M
+      mode: replicated
+      replicas: 1
 
   scheduler:
     <<: *worker
     container_name: top-1m-jarm-v2-scheduler
     command: ["-v", "scheduler"]
+    deploy:
+      mode: replicated
+      replicas: 1
 
   uploader:
     <<: *worker
     container_name: top-1m-jarm-v2-uploader
     command: ["-v", "uploader"]
+    deploy:
+      mode: replicated
+      replicas: 1
 
   redis:
     image: redis:7-alpine
@@ -28,4 +41,9 @@ services:
     ports:
       - '6379:6379'
     command: redis-server --save 60 1 --loglevel warning
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 500M
 
