@@ -1,3 +1,4 @@
+use std::{env, mem};
 use clap::{Parser, Subcommand};
 use env_logger::{Builder, Target};
 use log::{info, LevelFilter, trace, warn};
@@ -32,8 +33,23 @@ fn main() {
     builder.format_timestamp(None);
     builder.format_target(false);
     builder.target(Target::Stdout);
-    builder.init();
+
+    // Wrap logger inside sentry
+    let logger = sentry_log::SentryLogger::with_dest(builder.build());
+    log::set_boxed_logger(Box::new(logger)).unwrap();
+    log::set_max_level(log_level);
     trace!("debug is on");
+
+    match env::var("SENTRY_DSN") {
+        Ok(dsn) => {
+            let guard = sentry::init(dsn);
+            if guard.is_enabled() {
+                info!("Sentry enabled");
+                mem::forget(guard)  // Used to keep the guard active
+            }
+        }
+        Err(_) => {}  // Sentry not enabled
+    }
 
     match &cli.command {
         Commands::Scheduler => {

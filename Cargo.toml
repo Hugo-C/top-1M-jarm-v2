@@ -16,3 +16,5 @@ rust-s3 = { version = "0.33.0", features = ["blocking"] }
 tempfile = { version = "3.8.1", features = [] }
 reqwest = { version = "0.11.22", features = ["blocking"] }
 zip = "0.6.6"
+sentry = { version = "0.31.8", features = [] }
+sentry-log = { version = "0.31.8", features = [] }

@@ -9,6 +9,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - RUST_BACKTRACE=1
+      # - SENTRY_DSN=XXX
     command: ["-v", "worker"]
 
   scheduler:
