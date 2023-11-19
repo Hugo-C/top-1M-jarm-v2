@@ -11,7 +11,7 @@ services:
       - REDIS_HOST=redis
       - RUST_BACKTRACE=1
     volumes:
-      - ./test/top-1m.csv:/app/top-1m.csv
+      - ./test/top-1m.csv:/app/test/top-1m.csv
     command: ["-v", "--dry-run", "worker"]
 
   scheduler:
