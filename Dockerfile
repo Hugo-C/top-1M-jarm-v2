@@ -1,4 +1,4 @@
-FROM rust:1.73-bullseye as build-stage
+FROM rust:1.74-bullseye as build-stage
 
 ARG BUILD_OPTIONS="--release"
 
