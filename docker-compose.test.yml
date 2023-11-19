@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+
+  worker: &worker  # TODO move dry-run to override
+    build: .
+    volumes:
+      - ./test/top-1m.csv:/app/test/top-1m.csv
+    command: ["-v", "--dry-run", "worker"]
+
+  scheduler:
+    <<: *worker
+    command: ["-v", "--dry-run", "scheduler"]
+
+  uploader:
+    <<: *worker
+    command: ["-v", "--dry-run", "uploader"]
