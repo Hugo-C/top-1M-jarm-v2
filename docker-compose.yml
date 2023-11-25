@@ -61,6 +61,8 @@ services:
     ports:
       - '6379:6379'
     command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - ./data/redis_data:/data
     deploy:
       resources:
         limits:
