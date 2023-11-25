@@ -9,31 +9,51 @@ services:
     environment:
       - REDIS_HOST=redis
       - RUST_BACKTRACE=1
-      # - SENTRY_DSN=XXX
+#      - SENTRY_DSN=XXX
     command: ["-v", "worker"]
     deploy:
       resources:
         limits:
-          cpus: '1'
           memory: 100M
       mode: replicated
-      replicas: 1
+      replicas: 0
+      update_config:
+        parallelism: 1  # To reduce disk load
+        delay: 1s
+      restart_policy:
+        condition: none
 
   scheduler:
     <<: *worker
     container_name: top-1m-jarm-v2-scheduler
     command: ["-v", "scheduler"]
     deploy:
+      resources:
+        limits:
+          memory: 100M
       mode: replicated
       replicas: 1
+      restart_policy:
+        condition: none
 
   uploader:
     <<: *worker
     container_name: top-1m-jarm-v2-uploader
+    environment:
+      - REDIS_HOST=redis
+      - RUST_BACKTRACE=1
+#      - SENTRY_DSN=XXX
+      - AWS_ACCESS_KEY_ID=XXX
+      - AWS_SECRET_ACCESS_KEY=XXX
     command: ["-v", "uploader"]
     deploy:
+      resources:
+        limits:
+          memory: 100M
       mode: replicated
-      replicas: 1
+      replicas: 0
+      restart_policy:
+        condition: none
 
   redis:
     image: redis:7-alpine
@@ -44,6 +64,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
           memory: 500M
 

@@ -23,6 +23,7 @@ COPY . /app/project/
 RUN touch /app/project/src/main.rs && cargo build $BUILD_OPTIONS
 
 FROM debian:bullseye-slim as run-stage
+RUN apt-get update -y && apt-get install -y ca-certificates openssl  # Required to have make TLS requests
 RUN mkdir /app
 COPY --from=build-stage /app/project/target/release/top-1m-jarm-v2 /app
 RUN chown -R 1001:1001 /app

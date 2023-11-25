@@ -40,15 +40,12 @@ fn main() {
     log::set_max_level(log_level);
     trace!("debug is on");
 
-    match env::var("SENTRY_DSN") {
-        Ok(dsn) => {
-            let guard = sentry::init(dsn);
-            if guard.is_enabled() {
-                info!("Sentry enabled");
-                mem::forget(guard)  // Used to keep the guard active
-            }
+    if let Ok(dsn) = env::var("SENTRY_DSN") {
+        let guard = sentry::init(dsn);
+        if guard.is_enabled() {
+            info!("Sentry enabled");
+            mem::forget(guard)  // Used to keep the guard active
         }
-        Err(_) => {}  // Sentry not enabled
     }
 
     match &cli.command {

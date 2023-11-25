@@ -32,5 +32,30 @@ flowchart TB
     Scheduler --- Uploader["Uploader, wait until all domains are processed, then upload and terminate"]
 ```
 
-## Set up
-TODO
+## Running
+This project use docker swarm (might require `docker swarm init`). Docker rootless doesn't appear to support swarm.
+```shell
+docker stack deploy --compose-file docker-compose.yml top
+docker stack ls
+docker service ls
+docker service logs top_scheduler -f
+docker service logs top_uploader -f
+```
+
+Scale workers with:
+```shell
+docker service scale top_worker=X
+```
+
+To remove the running containers:
+```shell
+docker stack rm top
+docker stack ls
+```
+
+## Push to docker hub
+```shell
+docker build -t hugocker/top-1m-jarm-v2 --pull --no-cache .
+docker push hugocker/top-1m-jarm-v2
+```
+
