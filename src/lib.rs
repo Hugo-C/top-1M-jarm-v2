@@ -16,7 +16,8 @@ use zip::read::ZipFile;
 const JARM_HASH_FOR_DRY_RUN: &str = "27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5";
 const TRANCO_DOWNLOAD_ZIP_URL: &str = "https://tranco-list.eu/top-1m.csv.zip";
 const SAMPLE_TOP_1M_CSV_PATH: &str = "test/top-1m.csv";
-const UPLOADER_POLL_INTERVAL: Duration = Duration::from_millis(100);
+const JARM_TIMEOUT: Duration = Duration::from_millis(2000);
+const UPLOADER_POLL_INTERVAL: Duration = Duration::from_millis(1000);
 
 
 pub fn run_scheduler(dry_run: bool) {
@@ -89,7 +90,9 @@ fn process_tasks(con: &mut Connection, dry_run: bool) -> Result<(), Box<dyn Erro
                 let jarm_hash = if dry_run {
                     Ok(JARM_HASH_FOR_DRY_RUN.to_string())
                 } else {
-                    Jarm::new(task.domain.to_string(), 443.to_string()).hash()
+                    let mut scanner = Jarm::new(task.domain.to_string(), 443.to_string());
+                    scanner.timeout = JARM_TIMEOUT;
+                    scanner.hash()
                 };
                 debug!("Jarm hash is {jarm_hash:?} for {}", task.domain);
                 if let Ok(hash) = jarm_hash {
