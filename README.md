@@ -3,7 +3,8 @@ This repo is used to compute the jarm values of top 1 millions website.
 This is another iteration on https://github.com/Hugo-C/top-1M-jarm, with a switch from Alexa list to [Tranco](https://tranco-list.eu/).  
 [More info on jarm](https://engineering.salesforce.com/easily-identify-malicious-servers-on-the-internet-with-jarm-e095edac525a/).
 
-![](https://img.shields.io/badge/status-work%20in%20progress-orange?style=for-the-badge)
+![](https://img.shields.io/badge/status-in%20beta-chartreuse?style=for-the-badge)  
+[**Download link**](https://storage.googleapis.com/tranco-jarm/jarm-tranco-top-1m.csv)
 ## Output file template
 | tranco rank | domain      | JARM hash                                                      |
 |-------------|-------------|----------------------------------------------------------------|
