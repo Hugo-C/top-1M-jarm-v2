@@ -28,9 +28,6 @@ services:
     container_name: top-1m-jarm-v2-scheduler
     command: ["-v", "scheduler"]
     deploy:
-      resources:
-        limits:
-          memory: 100M
       mode: replicated
       replicas: 1
       restart_policy:
@@ -47,9 +44,6 @@ services:
       - AWS_SECRET_ACCESS_KEY=XXX
     command: ["-v", "uploader"]
     deploy:
-      resources:
-        limits:
-          memory: 100M
       mode: replicated
       replicas: 0
       restart_policy:
