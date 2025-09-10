@@ -7,6 +7,12 @@ To use Nomad instead of `docker swarm` as an orchestrator follow the following s
 sudo nomad agent -dev -bind 0.0.0.0 -network-interface='{{ GetDefaultInterfaces | attr "name" }}'
 ```
 
+## Configure the required variables
+```shell
+nomad var put nomad/jobs sentry_dsn=XXX
+nomad var put nomad/jobs/compute/uploader/uploader-task aws_access_key_id=XXX aws_secret_access_key=XXX
+```
+
 ## Start the redis service
 ```shell
 nomad job run nomad/redis.nomad.hcl
@@ -18,5 +24,5 @@ If using a development image, buid it `docker build -t top-1m-jarm-v2:nomad --pu
 
 Else simply run
 ```shell
-nomad job run nomad/scheduler.nomad.hcl
+nomad job run nomad/compute.nomad.hcl
 ```
