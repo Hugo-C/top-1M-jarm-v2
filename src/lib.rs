@@ -37,7 +37,8 @@ pub fn run_uploader(dry_run: bool) {
 
 fn redis_connection() -> RedisResult<Connection> {
     let redis_host = env::var("REDIS_HOST").unwrap_or("localhost".to_string());
-    let redis_url = format!("redis://{redis_host}/");
+    let redis_port = env::var("REDIS_PORT").unwrap_or("6379".to_string());
+    let redis_url = format!("redis://{redis_host}:{redis_port}/");
     let client = redis::Client::open(redis_url)?;
     client.get_connection()
 }

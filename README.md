@@ -35,6 +35,9 @@ flowchart TB
 
 ## Running
 This project use docker swarm (might require `docker swarm init`). Docker rootless doesn't appear to support swarm.
+
+See [Nomad doc](nomad/README.md) for using it as an alternative.
+
 ```shell
 docker stack deploy --compose-file docker-compose.yml top
 docker stack ls

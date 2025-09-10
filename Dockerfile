@@ -1,4 +1,4 @@
-FROM rust:1.74-bullseye as build-stage
+FROM rust:1.74-bullseye AS build-stage
 
 ARG BUILD_OPTIONS="--release"
 
@@ -22,7 +22,7 @@ COPY . /app/project/
 # This is the actual build, touch the main.rs to have newer timestamp
 RUN touch /app/project/src/main.rs && cargo build $BUILD_OPTIONS
 
-FROM debian:bullseye-slim as run-stage
+FROM debian:bullseye-slim AS run-stage
 RUN apt-get update -y && apt-get install -y ca-certificates openssl  # Required to have make TLS requests
 RUN mkdir /app
 COPY --from=build-stage /app/project/target/release/top-1m-jarm-v2 /app
