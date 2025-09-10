@@ -2,7 +2,7 @@ job "compute" {
   type = "batch"
 
   group "scheduler" {
-    count = 1
+    count = 0
 
     task "scheduler-task" {
       template {
@@ -29,6 +29,9 @@ EOH
 
   group "worker" {
     count = 2
+    ephemeral_disk {
+      size = 100 # MB
+    }
 
     task "worker-task" {
       template {
@@ -52,14 +55,18 @@ EOH
       }
 
       resources {
-        cpu = 500 # MHz
-        memory = 128 # MB
+        cpu = 100 # MHz
+        memory = 16 # MB
+      }
+      logs {
+        max_files     = 2
+        max_file_size = 10 # MB
       }
     }
   }
 
   group "uploader" {
-    count = 1
+    count = 0
 
     task "uploader-task" {
       template {

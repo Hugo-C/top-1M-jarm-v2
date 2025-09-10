@@ -26,3 +26,27 @@ Else simply run
 ```shell
 nomad job run nomad/compute.nomad.hcl
 ```
+
+## Scale the jobs
+
+By default, the worker has 2 instances and scheduler and uploader 0.
+Start the scheduler with:
+```shell
+nomad job scale compute scheduler 1
+```
+
+Once it has completed the schedule of the 1M hosts, **turn it down with**:
+```shell
+```shell
+nomad job scale compute scheduler 0
+```
+
+Then start the uploader with
+```shell
+nomad job scale compute uploader 1
+```
+
+Finally, modulate workers with 
+```shell
+nomad job scale compute worker X
+```
