@@ -51,4 +51,5 @@ Finally, modulate workers with
 nomad job scale compute worker X
 ```
 
-Workers take on average a bit more than 1 second to produce a result. So 1M scans require slightly over a day for 10 workers. 
+Workers take on average a bit more than 1 second to produce a result. So 1M scans require slightly over a day for 10 workers.  
+To run the cluster on AWS, check [cluster-setup](cluster-setup/README.md).
