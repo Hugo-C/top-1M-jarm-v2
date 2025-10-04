@@ -24,9 +24,9 @@ pub(crate) fn fetch_s3_bucket() -> Result<Bucket, S3Error> {
     // We check we have the correct credentials, head should return HTTP 403 if so
     let head = bucket.head_object_blocking(S3_PATH);
     match head {
-        Ok(_) => Ok(bucket),
+        Ok(_) => Ok(*bucket),
         Err(s3_error) => match s3_error {
-            S3Error::Http(404, _) => Ok(bucket),  // File simply do not exists, we can continue
+            S3Error::HttpFailWithBody(404, _) => Ok(*bucket),  // File simply does not exist, we can continue
             _ => Err(s3_error)
         }
     }

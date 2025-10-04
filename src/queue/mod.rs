@@ -3,7 +3,7 @@ use redis::{Commands, Connection, RedisResult};
 
 const TASK_QUEUE: &str = "tranco:tasks";
 const RESULT_QUEUE: &str = "tranco:results";
-const REDIS_BLOCK_TIMEOUT: usize = 1;
+const REDIS_BLOCK_TIMEOUT: f64 = 1.;
 
 pub(crate) struct Task {
     pub rank: String,

@@ -10,7 +10,6 @@ use tempfile::NamedTempFile;
 use crate::queue::{JarmResult, Task};
 
 use std::io::Read;
-use zip::read::ZipFile;
 
 
 const JARM_HASH_FOR_DRY_RUN: &str = "27d27d27d0000001dc41d43d00041d1c5ac8aa552261ba8fd1aa9757c06fa5";
@@ -74,7 +73,7 @@ fn fetch_tranco_list() -> Result<String, Box<dyn Error>> {
 
     let reader = std::io::Cursor::new(buf);
     let mut zip = zip::ZipArchive::new(reader).unwrap();
-    let mut file_zip: ZipFile = zip.by_index(0)?;  // a single csv file is expected
+    let mut file_zip = zip.by_index(0)?;  // a single csv file is expected
     let mut file_buf: Vec<u8> = Vec::new();
     let _ = file_zip.read_to_end(&mut file_buf);
     let content = String::from_utf8(file_buf).unwrap();
