@@ -3,8 +3,8 @@ This repo is used to compute the jarm values of top 1 millions website.
 This is another iteration on https://github.com/Hugo-C/top-1M-jarm, with a switch from Alexa list to [Tranco](https://tranco-list.eu/).  
 [More info on jarm](https://engineering.salesforce.com/easily-identify-malicious-servers-on-the-internet-with-jarm-e095edac525a/).
 
-![](https://img.shields.io/badge/status-in%20beta-chartreuse?style=for-the-badge)  
-[**Download link**](https://storage.googleapis.com/tranco-jarm/jarm-tranco-top-1m.csv)
+![](https://img.shields.io/badge/status-done-chartreuse?style=for-the-badge)  
+#### [🡺 **Download link** 🡸](https://storage.googleapis.com/tranco-jarm/jarm-tranco-top-1m.csv)
 ## Output file template
 | tranco rank | domain      | JARM hash                                                      |
 |-------------|-------------|----------------------------------------------------------------|
@@ -36,7 +36,8 @@ flowchart TB
 ## Running
 This project use docker swarm (might require `docker swarm init`). Docker rootless doesn't appear to support swarm.
 
-See [Nomad doc](nomad/README.md) for using it as an alternative.
+> [!NOTE]
+> See [Nomad doc](nomad/README.md) for using it as an alternative to docker swarm, with IaC for AWS.
 
 ```shell
 docker stack deploy --compose-file docker-compose.yml top
