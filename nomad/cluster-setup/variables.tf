@@ -29,7 +29,7 @@ variable "server_instance_type" {
 
 variable "client_instance_type" {
   description = "The AWS instance type to use for clients."
-  default     = "t3.micro"
+  default     = "t3.small"
 }
 
 variable "server_count" {

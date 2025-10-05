@@ -3,7 +3,7 @@ agent {
 }
 
 node {
-  policy = "read"
+  policy = "write"
 }
 
 namespace "*" {
@@ -12,7 +12,7 @@ namespace "*" {
 
   variables {
     path "nomad/*" {
-      capabilities = ["read", "write"]
+      capabilities = ["write"]
     }
   }
 }

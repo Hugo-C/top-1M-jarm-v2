@@ -3,8 +3,8 @@ Based on [Hashicorp doc](https://developer.hashicorp.com/nomad/tutorials/cluster
 Export aws credentials (can be found [here](https://us-east-1.console.aws.amazon.com/iam/home?region=eu-west-3#/security_credentials)) with:
 ```shell
 export AWS_REGION=eu-west-3
-export AWS_ACCESS_KEY_ID=XXX
-export AWS_SECRET_ACCESS_KEY=XXX
+ export AWS_ACCESS_KEY_ID=XXX
+ export AWS_SECRET_ACCESS_KEY=XXX
 ```
 
 Build the AMI image with:

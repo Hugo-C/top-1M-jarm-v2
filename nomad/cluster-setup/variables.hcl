@@ -12,5 +12,5 @@ ami                       = "XXX_REPLACE_ME_XXX"
 # server_instance_type    = "t3.micro"
 # Set to 3 for HA cluster
 # server_count            = "1"
-# client_instance_type    = "t3.micro"
+# client_instance_type    = "t3.small"
 # client_count            = "3"

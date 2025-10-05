@@ -21,14 +21,14 @@ EOH
       driver = "docker"
 
       config {
-        image   = "top-1m-jarm-v2:nomad"
+        image   = "hugocker/top-1m-jarm-v2"
         command = "scheduler"
       }
     }
   }
 
   group "worker" {
-    count = 2
+    count = 0
     ephemeral_disk {
       size = 100 # MB
     }
@@ -50,13 +50,13 @@ EOH
       driver = "docker"
 
       config {
-        image   = "top-1m-jarm-v2:nomad"
+        image   = "hugocker/top-1m-jarm-v2"
         command = "worker"
       }
 
       resources {
-        cpu = 100 # MHz
-        memory = 16 # MB
+        cpu = 128 # MHz
+        memory = 32 # MB
       }
       logs {
         max_files     = 2
@@ -87,7 +87,7 @@ EOH
       driver = "docker"
 
       config {
-        image   = "top-1m-jarm-v2:nomad"
+        image   = "hugocker/top-1m-jarm-v2"
         command = "uploader"
       }
     }

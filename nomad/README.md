@@ -29,14 +29,13 @@ nomad job run nomad/compute.nomad.hcl
 
 ## Scale the jobs
 
-By default, the worker has 2 instances and scheduler and uploader 0.
+By default, all jobs (worker, scheduler and uploader) have 0 instances.
 Start the scheduler with:
 ```shell
 nomad job scale compute scheduler 1
 ```
 
 Once it has completed the schedule of the 1M hosts, **turn it down with**:
-```shell
 ```shell
 nomad job scale compute scheduler 0
 ```

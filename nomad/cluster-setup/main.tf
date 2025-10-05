@@ -12,18 +12,18 @@ resource "aws_security_group" "consul_nomad_ui_ingress" {
 
   # Nomad
   ingress {
-    from_port       = 4646
-    to_port         = 4646
-    protocol        = "tcp"
-    cidr_blocks     = [var.allowlist_ip]
+    from_port   = 4646
+    to_port     = 4646
+    protocol    = "tcp"
+    cidr_blocks = [var.allowlist_ip]
   }
 
   # Consul
   ingress {
-    from_port       = 8500
-    to_port         = 8500
-    protocol        = "tcp"
-    cidr_blocks     = [var.allowlist_ip]
+    from_port   = 8500
+    to_port     = 8500
+    protocol    = "tcp"
+    cidr_blocks = [var.allowlist_ip]
   }
 
   ingress {
